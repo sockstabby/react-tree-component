@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, useRef } from "react";
 
 interface User {
   id: string;
@@ -14,6 +14,8 @@ function Search() {
   const [search, setSearch] = useState<string>("");
   const [user, setUser] = useState<null | User>(null);
 
+  const inputEl = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
     const loadUser = async () => {
       const u: User = await getUser();
@@ -22,6 +24,10 @@ function Search() {
 
     loadUser();
   }, []);
+
+  function handleChange2(event: ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value);
+  }
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value);

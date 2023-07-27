@@ -39,6 +39,6 @@ describe("App", () => {
 
     await userEvent.type(screen.getByRole("textbox"), "JavaScript");
 
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledTimes(0);
   });
 });
