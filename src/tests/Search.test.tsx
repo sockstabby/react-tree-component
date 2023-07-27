@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 
-import Search from "./Search";
+import Search from "../Search";
 
 describe("App", () => {
   it("renders App component", async () => {
