@@ -1,11 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  getByTestId,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 
 import Tree, { TreeItem } from "../Tree";
 
@@ -28,25 +22,22 @@ describe("Tree", () => {
   it("renders a tree", () => {
     render(<Tree treeItems={tree} />);
 
-    const children = screen.getByTestId("IllinoisSection");
+    let children = screen.getByTestId("IllinoisSection");
     expect(children).toHaveAttribute("aria-hidden", "true");
 
-    const button = screen.getByTestId("IllinoisButton");
+    let button = screen.getByTestId("IllinoisButton");
 
     fireEvent.click(button);
 
     expect(children).toHaveAttribute("aria-hidden", "false");
 
+    button = screen.getByTestId("ChicagoButton");
+
+    fireEvent.click(button);
+
+    children = screen.getByTestId("IllinoisSection");
+    expect(children).toHaveAttribute("aria-hidden", "false");
+
     screen.debug();
-  });
-});
-
-describe("something truthy and falsy", () => {
-  it("true to be true", () => {
-    expect(true).toBe(true);
-  });
-
-  it("false to be false", () => {
-    expect(false).toBe(false);
   });
 });
