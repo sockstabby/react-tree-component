@@ -15,6 +15,31 @@ const tree: TreeItem[] = [
       },
     ],
   },
+
+  {
+    label: "California",
+    children: [
+      {
+        label: "San Francisco",
+        children: [
+          { label: "Pilsen", children: [] },
+          { label: "Edgewood", children: [] },
+        ],
+      },
+    ],
+  },
+  {
+    label: "New York",
+    children: [
+      {
+        label: "Albany",
+        children: [
+          { label: "Bronx", children: [] },
+          { label: "Brooklyn", children: [] },
+        ],
+      },
+    ],
+  },
 ];
 
 function App() {

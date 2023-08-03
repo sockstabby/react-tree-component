@@ -18,26 +18,84 @@ const tree: TreeItem[] = [
   },
 ];
 
-describe("Tree", () => {
-  it("renders a tree", () => {
+describe("Tree component", () => {
+  it("renders a tree and toggles children visibility", () => {
     render(<Tree treeItems={tree} />);
+
+    let illinoisButton = screen.getByTestId("IllinoisButton");
+    let chicagoButton = screen.getByTestId("ChicagoButton");
+    let edgewoodButton = screen.getByTestId("EdgewoodButton");
 
     let children = screen.getByTestId("IllinoisSection");
     expect(children).toHaveAttribute("aria-hidden", "true");
 
-    let button = screen.getByTestId("IllinoisButton");
+    // test for children items
+    let illinoisSubDivs = screen
+      .getByTestId("IllinoisSection")
+      .querySelector("div");
 
-    fireEvent.click(button);
+    expect(illinoisSubDivs).not.toBe(null);
 
+    // test that this item has a expand collapse svg
+    let illinoisIcon = screen
+      .getByTestId("IllinoisButton")
+      .querySelector("svg");
+    expect(illinoisIcon).not.toBe(null);
+
+    expect(illinoisButton).toHaveAttribute("aria-expanded", "false");
+
+    // expand Illinois
+    fireEvent.click(illinoisButton);
+    expect(illinoisButton).toHaveAttribute("aria-expanded", "true");
     expect(children).toHaveAttribute("aria-hidden", "false");
 
-    button = screen.getByTestId("ChicagoButton");
+    //collapse Illinois
+    fireEvent.click(illinoisButton);
+    expect(illinoisButton).toHaveAttribute("aria-expanded", "false");
+    expect(children).toHaveAttribute("aria-hidden", "true");
 
-    fireEvent.click(button);
-
-    children = screen.getByTestId("IllinoisSection");
+    //expand Illinois
+    fireEvent.click(illinoisButton);
+    expect(illinoisButton).toHaveAttribute("aria-expanded", "true");
     expect(children).toHaveAttribute("aria-hidden", "false");
 
-    screen.debug();
+    // now toggle chicago children visibility
+    // children should be collapsed initially
+    let chicagoIcon = screen.getByTestId("ChicagoButton").querySelector("svg");
+    expect(chicagoIcon).not.toBe(null);
+
+    children = screen.getByTestId("ChicagoSection");
+    expect(chicagoButton).toHaveAttribute("aria-expanded", "false");
+    expect(children).toHaveAttribute("aria-hidden", "true");
+
+    // expand chicago
+    fireEvent.click(chicagoButton);
+    expect(chicagoButton).toHaveAttribute("aria-expanded", "true");
+    expect(children).toHaveAttribute("aria-hidden", "false");
+
+    // verify chicago has child divs
+    let chicagoSubDivs = screen
+      .getByTestId("ChicagoSection")
+      .querySelector("div");
+
+    expect(chicagoSubDivs).not.toBe(null);
+
+    // click on a leaf item. nothing should happen an they shoulnt have children
+    expect(edgewoodButton).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(edgewoodButton);
+    expect(edgewoodButton).toHaveAttribute("aria-expanded", "true");
+
+    // verify leaf does not have child divs
+    let edgewoodSubDivs = screen
+      .getByTestId("EdgewoodSection")
+      .querySelector("div");
+
+    // these are leaves so they dont have children.
+    expect(edgewoodSubDivs).toBe(null);
+
+    // leaves should not have collapse expand icons
+
+    let pilsenIcon = screen.getByTestId("PilsenButton").querySelector("svg");
+    expect(pilsenIcon).toBe(null);
   });
 });
